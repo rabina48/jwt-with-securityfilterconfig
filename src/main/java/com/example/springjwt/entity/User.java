@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "student")
-public class Student implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,6 @@ public class Student implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role roles;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
