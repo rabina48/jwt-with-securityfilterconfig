@@ -1,18 +1,22 @@
 package com.example.springjwt.service.impl;
 
 import com.example.springjwt.config.JwtService;
+import com.example.springjwt.dtos.request.AuthenticationRequest;
 import com.example.springjwt.dtos.request.RegisterRequest;
 import com.example.springjwt.dtos.response.AuthenticationResponse;
-import com.example.springjwt.entity.Role;
+import com.example.springjwt.entity.Roles;
 import com.example.springjwt.entity.User;
+import com.example.springjwt.repository.RolesRepo;
 import com.example.springjwt.repository.UserServiceRepo;
 import com.example.springjwt.service.AuthService;
 import lombok.AllArgsConstructor;
-import org.aspectj.weaver.patterns.IToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : Rabina Shrestha
@@ -27,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserServiceRepo userServiceRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final RolesRepo rolesRepo;
     private AuthenticationManager authenticationManager;
 
     @Override
@@ -35,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
                 .fullName(request.getFullName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .roles(Role.USER)
+                .roles(rolesRepo.findRole(request.getRoles()))
                 .build();
         userServiceRepo.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -45,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthenticationResponse authenticate(RegisterRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),

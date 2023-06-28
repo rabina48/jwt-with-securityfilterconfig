@@ -1,7 +1,9 @@
 package com.example.springjwt.service;
 
+import com.example.springjwt.dtos.request.AuthenticationRequest;
 import com.example.springjwt.dtos.request.RegisterRequest;
 import com.example.springjwt.dtos.response.AuthenticationResponse;
+import com.example.springjwt.dtos.response.SuccessResponse;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,5 +15,5 @@ import org.springframework.stereotype.Service;
 public interface AuthService {
     AuthenticationResponse register(RegisterRequest request);
 
-    AuthenticationResponse authenticate(RegisterRequest request);
+    AuthenticationResponse authenticate(AuthenticationRequest request);
 }

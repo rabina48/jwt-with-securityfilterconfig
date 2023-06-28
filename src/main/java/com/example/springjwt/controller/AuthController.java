@@ -1,7 +1,9 @@
 package com.example.springjwt.controller;
 
+import com.example.springjwt.dtos.request.AuthenticationRequest;
 import com.example.springjwt.dtos.request.RegisterRequest;
 import com.example.springjwt.dtos.response.AuthenticationResponse;
+import com.example.springjwt.dtos.response.SuccessResponse;
 import com.example.springjwt.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody RegisterRequest request){
-        return ResponseEntity.ok(authService.authenticate(request));
+    public ResponseEntity<SuccessResponse> authenticate(@RequestBody AuthenticationRequest request){
+        return ResponseEntity.ok(new SuccessResponse("Success!", authService.authenticate(request)));
     }
 }
