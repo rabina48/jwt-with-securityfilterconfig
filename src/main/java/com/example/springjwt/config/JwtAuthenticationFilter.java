@@ -1,5 +1,7 @@
 package com.example.springjwt.config;
 
+import com.example.springjwt.dtos.request.ClaimReqDto;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author : Rabina Shrestha
@@ -29,6 +32,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailService;
+    private final ClaimReqDto claimReqDto;
+
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -61,9 +66,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                Claims claims = jwtService.extractAllClaims(jwtToken);
+                claimReqDto.role((List<String>) claims.get("role"));
                 filterChain.doFilter(request, response);
 
             }
+
+
+
 
         }
 

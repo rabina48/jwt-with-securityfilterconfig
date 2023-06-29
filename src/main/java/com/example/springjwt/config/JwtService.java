@@ -1,6 +1,7 @@
 package com.example.springjwt.config;
 
 import com.auth0.jwt.interfaces.Claim;
+import com.example.springjwt.dtos.request.ClaimReqDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -31,32 +33,46 @@ public class JwtService {
 
     private <T> T extractClaim(String token, Function<Claims, T> clamsResolver) {
         final Claims claims = extractAllClaims(token);
+
+        extractClaims(token);
         return clamsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    private Map<String, Object> extractClaims(String token) {
+        final Claims claims = extractAllClaims(token);
+       List<String> roles= (List<String>) claims.get("role");
+        claims.get("sub");
+
+//        ClaimReqDto claimReqDto =
+
+        return claims;
     }
-//TODO: ROLE
+
+
+//    public ClaimReqDto extractEachBody(String token){
+//        Claims claims = extractAllClaims(token);
+//        claims.get("token");
+//        return null;
+//    }
+
+//    public String generateToken(UserDetails userDetails) {
+//        return generateToken(new HashMap<>(), userDetails);
+//    }
+//generate token + generate token via Role
     public String generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails
+            String userDetails, List<String> roles, Integer id
     ) {
-        return Jwts
-                .builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+        return Jwts.builder()
+                .setSubject(userDetails)
+                .claim("role",roles)
+                .claim("userId", id)
+//                .setSubject(userDetails.getUsername())
+//                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24)) //24 jrs
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact(); // generate and return token
     }
 
-//     public String generateToken(String email , List<String> roles, Integer id) {
-//        return Jwts.builder().setSubject(email).claim("role",roles).claim("userId", id).setIssuedAt(new Date(System.currentTimeMillis()))
-//            .setExpiration(Date.from(Instant.now().plus(jwtExpiration, ChronoUnit.MILLIS)))
-//            .signWith(SignatureAlgorithm.HS256, secret).compact();
-//    }
 
     // to valid token
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -72,7 +88,7 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()

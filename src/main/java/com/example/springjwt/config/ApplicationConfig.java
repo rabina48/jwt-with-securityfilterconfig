@@ -31,7 +31,8 @@ public class ApplicationConfig {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return userServiceRepo.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+
+                return userServiceRepo.findByEmail(username);
             }
         };
     }
