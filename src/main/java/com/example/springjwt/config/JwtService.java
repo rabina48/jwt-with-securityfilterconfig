@@ -34,19 +34,19 @@ public class JwtService {
     private <T> T extractClaim(String token, Function<Claims, T> clamsResolver) {
         final Claims claims = extractAllClaims(token);
 
-        extractClaims(token);
+//        extractClaims(token);
         return clamsResolver.apply(claims);
     }
 
-    private Map<String, Object> extractClaims(String token) {
-        final Claims claims = extractAllClaims(token);
-       List<String> roles= (List<String>) claims.get("role");
-        claims.get("sub");
-
-//        ClaimReqDto claimReqDto =
-
-        return claims;
-    }
+//    private Map<String, Object> extractClaims(String token) {
+//        final Claims claims = extractAllClaims(token);
+//       List<String> roles= (List<String>) claims.get("role");
+//        claims.get("sub");
+//
+////        ClaimReqDto claimReqDto =
+//
+//        return claims;
+//    }
 
 
 //    public ClaimReqDto extractEachBody(String token){
@@ -58,21 +58,20 @@ public class JwtService {
 //    public String generateToken(UserDetails userDetails) {
 //        return generateToken(new HashMap<>(), userDetails);
 //    }
-//generate token + generate token via Role
+
+
+    //generate token + generate token via Role
     public String generateToken(
             String userDetails, List<String> roles, Integer id
     ) {
         return Jwts.builder()
                 .setSubject(userDetails)
-                .claim("role",roles)
+                .claim("role", roles)
                 .claim("userId", id)
-//                .setSubject(userDetails.getUsername())
-//                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24)) //24 jrs
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-                .compact(); // generate and return token
+                .compact();
     }
-
 
     // to valid token
     public boolean isTokenValid(String token, UserDetails userDetails) {

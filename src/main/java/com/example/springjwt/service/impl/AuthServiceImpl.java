@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
         if (userServiceRepo.findByEmail(request.getEmail()) != null) {
-            throw new RuntimeException("Email already Exist!");
+            throw new CredentialMismatchException("Email already Exist!");
         }
         var user = User.builder()
                 .fullName(request.getFullName())

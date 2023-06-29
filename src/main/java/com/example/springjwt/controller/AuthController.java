@@ -22,15 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class AuthController {
 
-    private  final AuthService authService;
+    private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<SuccessResponse> authenticate(@RequestBody AuthenticationRequest request){
+    public ResponseEntity<SuccessResponse> authenticate(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(new SuccessResponse("Success!", authService.authenticate(request)));
     }
 }

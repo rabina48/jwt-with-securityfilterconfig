@@ -36,11 +36,9 @@ public class UserServiceImp implements UserService {
     public UserResponse updateAllStudent(Integer id, UserRequest userRequest) {
 
         User user = userServiceRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Vendor with id " + id + MessageConstant.NOT_FOUND));
+                () -> new ResourceNotFoundException("User with id " + id + MessageConstant.NOT_FOUND));
         user.setEmail(userRequest.getEmail());
         user.setFullName(userRequest.getFullName());
-
-
 //        List<Roles> rolesList = new ArrayList<>();
 //        rolesList.add(role);
         user.setRoles( rolesRepo.findRole(userRequest.getRoles()));
@@ -54,14 +52,14 @@ public class UserServiceImp implements UserService {
     @Override
     public UserResponse userById(Integer id) {
         User user = userServiceRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Vendor with id " + id + MessageConstant.NOT_FOUND));
+                () -> new ResourceNotFoundException("User with id " + id + MessageConstant.NOT_FOUND));
         return userResResConvertor.toUserResponse(user);
     }
 
     @Override
     public void deleteUser(Integer id) {
         User user = userServiceRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Vendor with id " + id + MessageConstant.NOT_FOUND));
+                () -> new ResourceNotFoundException("User with id " + id + MessageConstant.NOT_FOUND));
         userServiceRepo.deleteById(id);
     }
 

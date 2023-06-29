@@ -9,4 +9,5 @@ public class ApiUrl {
     public static final String UPDATE = "/update/{id}";
     public static final String REGISTER = "/register";
     public static final String SAVE = "/save";
+    public static final String HELLO = "/hello";
 }

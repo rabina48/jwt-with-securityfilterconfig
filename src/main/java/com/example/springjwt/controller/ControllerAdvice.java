@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @email : rabina.shrestha@codehimalaya.tech
  */
 @RestControllerAdvice
-
 public class ControllerAdvice {
 
     @ExceptionHandler(value = CredentialMismatchException.class)

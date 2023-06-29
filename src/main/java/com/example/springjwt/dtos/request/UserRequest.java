@@ -20,10 +20,8 @@ import java.util.List;
 public class UserRequest {
 
     private String fullName;
-
     private String email;
     private String password;
-
     private List<Integer> roles;
 
 

@@ -21,32 +21,27 @@ public class AdminController {
     }
 
     @GetMapping(ApiUrl.STUDENT)
-    public List<UserResponse> getAllAppointment() {
+    public List<UserResponse> getAllUser() {
         return userService.getAllStudent();
     }
 
     @PutMapping(ApiUrl.UPDATE)
-    public UserResponse updateAppointment(@PathVariable Integer id, @RequestBody UserRequest userRequest) {
+    public UserResponse updateUser(@PathVariable Integer id, @RequestBody UserRequest userRequest) {
         return userService.updateAllStudent(id, userRequest);
     }
 
     @PostMapping(ApiUrl.SAVE)
-    public UserResponse saveUser( @RequestBody UserRequest registerRequest) {
-        return userService.saveStudent( registerRequest);
-    }
-
-    @GetMapping(ApiUrl.REGISTER)
-    public ResponseEntity<List<UserResponse>> getAllUser(){
-        return ResponseEntity.ok(userService.getAllStudent());
+    public UserResponse saveUser(@RequestBody UserRequest registerRequest) {
+        return userService.saveStudent(registerRequest);
     }
 
     @GetMapping(ApiUrl.BY_ID)
-    public UserResponse getSubAsset(@PathVariable Integer id){
+    public UserResponse getUser(@PathVariable Integer id) {
         return userService.userById(id);
     }
 
     @DeleteMapping(ApiUrl.BY_ID)
-    public void deleteSubAsset(@PathVariable Integer id){
+    public void deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
     }
 

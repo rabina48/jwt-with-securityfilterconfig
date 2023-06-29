@@ -1,5 +1,6 @@
 package com.example.springjwt.controller;
 
+import com.example.springjwt.constant.ApiUrl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-    @GetMapping("/hello")
+    @GetMapping(ApiUrl.HELLO)
     public  String hello(){
         return "HELLO This is user Dashboard!";
     }
